@@ -25,6 +25,9 @@ RUN curl -fSL "${VSCODEPATH}" -o vscode.deb \
 # and uninstall extensions from the command line. When identifying an extension, provide 
 # the full name of the form publisher.extension, for example donjayamanne.python.
 
+# We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
+USER $USER
+
 # Enable viewing git log, file history, compare branches and commits - https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory
 RUN code --install-extension donjayamanne.githistory
 # Install Ms' python - linting, debugging, intellisense, etc.
@@ -32,6 +35,9 @@ RUN code --install-extension ms-python.python
 # Install code outline provider - better code visualization in the explorer pane
 RUN code --install-extension patrys.vscode-code-outline
 
+
+# Annnnnd back to root for the remainder of this session.
+USER root
 
 # Install nomachine, so we can remote into the machine
 ENV NOMACHINE_PACKAGE_NAME nomachine_6.1.6_9_amd64.deb
