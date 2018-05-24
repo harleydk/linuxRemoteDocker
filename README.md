@@ -1,15 +1,14 @@
 # linuxRemoteDocker
 An attempt to create a docker-recipy for invoking a linux-based development environment with relevant development stuff, such as VS Code and Python and such. And Git, let's not forget about Git.
 
-Inspired by 
+Inspired by https://github.com/cesarandreslopez/docker-ubuntu-mate-desktop-nomachine
 
-# How to run
 
 ## Build
 
 ```
 git clone https://github.com/harleydk/linuxRemoteDocker
-docker build -t=linuxRemotePCImage .
+docker build -t=linux_remote_pc_image .
 ```
 
 ## Enviroment vaiables
@@ -18,8 +17,10 @@ PASSWORD -> password for the nomachine login
 
 ## Usage
 
+Running it:
+
 ```
-docker run -d -p 4000:4000 --name linuxRemotePC -e PASSWORD=password -e USER=user --cap-add=SYS_PTRACE 'linuxRemotePCImage'
+docker run -d -p 4000:4000 --name linux_remote_pc -e PASSWORD=password -e USER=user --cap-add=SYS_PTRACE 'linux_remote_pc_image'
 ```
 
 ## Connect to the container
