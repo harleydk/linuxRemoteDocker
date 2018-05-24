@@ -2,6 +2,12 @@ FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Some general updates to get us started:
+RUN apt-get update -y && apt-get install -y software-properties-common  && apt-get install -y locales
+RUN add-apt-repository universe
+RUN apt-get install -y cups curl libgconf2-4 iputils-ping libnss3-1d libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
+
+
 # Configure timezone and locale to spanish and America/Bogota timezone. Change locale and timezone to whatever you want
 ENV LANG="da_DK.UTF-8"
 ENV LANGUAGE=da_DK
@@ -13,10 +19,6 @@ RUN echo "Europe/Copenhagen" > /etc/timezone && \
     update-locale LANG=$LANG
 
     
-# Some general updates.
-RUN apt-get update -y && apt-get install -y software-properties-common 
-RUN add-apt-repository universe
-RUN apt-get install -y cups curl libgconf2-4 iputils-ping libnss3-1d libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
 
 # Install the mate-desktop-enviroment version you would like to have
 RUN apt-get update -y && \
