@@ -12,9 +12,9 @@ RUN apt-get update -y && \
     apt-get install -y xfce4
 
 # Install git
-RUN apt-get install git
+RUN apt-get install -y git
 # Install python
-RUN apt-get install python3.6
+RUN apt-get install -y python3.6
 
 # Install Visual Studio Code
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
