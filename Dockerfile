@@ -12,7 +12,9 @@ RUN apt-get update -y && \
     apt-get install -y mate-desktop-environment-extras
 
 # Install Visual Studio Code
-
+ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
+RUN curl -fSL "${VSCODEPATH}" -o vscode.deb \
+&& dpkg -i vscode.deb
 
 
 # Install nomachine, change password and username to whatever you want here
