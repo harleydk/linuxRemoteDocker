@@ -26,7 +26,10 @@ RUN curl -fSL "${VSCODEPATH}" -o vscode.deb \
 # the full name of the form publisher.extension, for example donjayamanne.python.
 
 # We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
-USER $USER
+RUN useradd -ms /bin/bash newUser
+
+USER newuser
+WORKDIR /home/newuser
 
 # Enable viewing git log, file history, compare branches and commits - https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory
 RUN code --install-extension donjayamanne.githistory
