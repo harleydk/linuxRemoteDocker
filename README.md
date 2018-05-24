@@ -11,7 +11,7 @@ git clone https://github.com/harleydk/linuxRemoteDocker
 docker build -t=linux_remote_pc_image .
 ```
 
-## Enviroment vaiables
+## Enviroment variables
 USER -> user for the nomachine login
 PASSWORD -> password for the nomachine login
 
