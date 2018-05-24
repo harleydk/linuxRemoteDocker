@@ -26,7 +26,8 @@ RUN curl -fSL "${VSCODEPATH}" -o vscode.deb \
 # the full name of the form publisher.extension, for example donjayamanne.python.
 
 # We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
-RUN useradd -ms /bin/bash newUser
+RUN echo 'newuser:password' | chpasswd
+RUN useradd -ms /bin/bash newuser
 
 USER newuser
 WORKDIR /home/newuser
