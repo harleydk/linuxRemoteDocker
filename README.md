@@ -9,7 +9,7 @@ Inspired by
 
 ```
 git clone https://github.com/harleydk/linuxRemoteDocker
-docker build -t=ubuntu-desktop-nomachine .
+docker build -t=linuxRemotePCImage .
 ```
 
 ## Enviroment vaiables
@@ -19,7 +19,7 @@ PASSWORD -> password for the nomachine login
 ## Usage
 
 ```
-docker run -d -p 4000:4000 --name desktop -e PASSWORD=password -e USER=user --cap-add=SYS_PTRACE docker build -t=ubuntu-desktop-nomachine .
+docker run -d -p 4000:4000 --name linuxRemotePC -e PASSWORD=password -e USER=user --cap-add=SYS_PTRACE 'linuxRemotePCImage'
 ```
 
 ## Connect to the container
