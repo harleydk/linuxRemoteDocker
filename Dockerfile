@@ -9,10 +9,6 @@ RUN add-apt-repository universe
 RUN apt-get install -y cups curl libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
 RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales
 
-# Install the mate-desktop-enviroment version you would like to have
-RUN apt-get update -y && \
-    apt-get install -y mate-desktop-environment-extras
-
 # Install nomachine, change password and username to whatever you want here.
 # Important to note: install the nomachine-server _before_ adding the user. Or we won't have ...
 ENV NOMACHINE_PACKAGE_NAME nomachine_6.1.6_9_amd64.deb
