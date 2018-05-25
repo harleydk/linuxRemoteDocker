@@ -44,10 +44,6 @@ RUN /bin/sh groupadd -r $USER -g 433 \
 # Install Visual Studio Code
 
 
-
-
-
-
 # Start the nomachine-remote server
-ENTRYPOINT ["/nxserver.sh"]
+# ENTRYPOINT ["/nxserver.sh"]
 
