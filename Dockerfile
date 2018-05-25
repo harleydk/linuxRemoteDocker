@@ -56,7 +56,7 @@ USER root
 #RUN chmod +x /etc/NX/nxserverStart.sh
 
 # Start the nomachine-remote server and ...
-RUN ["/etc/NX/nxserver --startup"]
+#RUN ["/etc/NX/nxserver --startup"]
 #... happy developing!
 
 # How to run the image? Like so:
