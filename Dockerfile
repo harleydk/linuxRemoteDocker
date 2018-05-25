@@ -46,8 +46,5 @@ RUN ["chmod", "+x", "/nxserver.sh"]
 
 
 # Start the nomachine-remote server
-RUN /etc/NX/nxserver 
-RUN tail -f /usr/NX/var/log/nxserver.log
-
-
 ENTRYPOINT ["/nxserver.sh"]
+
