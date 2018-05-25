@@ -56,9 +56,9 @@ USER root
 #RUN chmod +x /etc/NX/nxserverStart.sh
 
 # Start the nomachine-remote server and ...
-RUN /etc/NX/nxserver --startup
+RUN ["/etc/NX/nxserver --startup"]
 # .. continously monitor the NoMachine server log, and ...
-RUN ["tail", "-f", "/usr/NX/var/log/nxserver.log", "--lines=30"]
+#RUN ["tail", "-f", "/usr/NX/var/log/nxserver.log", "--lines=30"]
 #ENTRYPOINT ["tail", "-f", "/usr/NX/var/log/nxserver.log"]
 #... happy developing!
 
