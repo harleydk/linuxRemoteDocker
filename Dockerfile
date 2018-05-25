@@ -30,17 +30,10 @@ RUN ["chmod", "+x", "/nxserver.sh"]
 # RUN useradd -ms /bin/bash newuser
 # RUN echo 'newuser:password' | chpasswd
 
-ENV USER='newuser'
-ENV PASSWORD='password'
-
-RUN groupadd -r $USER -g 433 \
-     && useradd -u 431 -r -g $USER -d /home/$USER -s /bin/bash -c "$USER" $USER \
-      #&& adduser $USER sudo \
-      && mkdir /home/$USER \
-      && chown -R $USER:$USER /home/$USER \
-      && echo $USER':'$PASSWORD | chpasswd
-
 # Install Visual Studio Code
+
+
+
 
 
 # Start the nomachine-remote server
