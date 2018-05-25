@@ -1,3 +1,4 @@
+# 
 FROM ubuntu:17.10
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -9,15 +10,6 @@ RUN add-apt-repository universe
 RUN apt-get install -y cups curl libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
 RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales
 
-# Install nomachine, change password and username to whatever you want here.
-# Important to note: install the nomachine-server _before_ adding the user. Or we won't have ...
-ENV NOMACHINE_PACKAGE_NAME nomachine_6.1.6_9_amd64.deb
-ENV NOMACHINE_MD5 00b7695404b798034f6a387cf62aba84
-
-RUN curl -fSL "http://download.nomachine.com/download/6.1/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
-&& echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
-&& dpkg -i nomachine.deb
-
 # Let's add a user:
 ENV USER='thecoder'
 ENV PASSWORD='password'
@@ -28,10 +20,6 @@ RUN groupadd -r $USER -g 433 \
       && mkdir /home/$USER \
       && chown -R $USER:$USER /home/$USER \
       && echo $USER':'$PASSWORD | chpasswd
-
-# Install Visual Studio Code
-# ...foobar...
-# We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
 
 # Configure timezone and locale to en_US. Change locale and timezone to whatever you want.
  ENV LANG="en_US.UTF-8"
@@ -76,6 +64,15 @@ RUN code --install-extension patrys.vscode-code-outline
 
 # Annnnnd back to root for the remainder of this session.
 USER root
+
+# Install nomachine, the remote-desktop server that enables us to remote into the container image.
+# You don't have to rely on my choice of NoMachine - just go to their website and get a different one, if you want.
+ENV NOMACHINE_PACKAGE_NAME nomachine_6.1.6_9_amd64.deb
+ENV NOMACHINE_MD5 00b7695404b798034f6a387cf62aba84
+
+RUN curl -fSL "http://download.nomachine.com/download/6.1/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
+&& echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
+&& dpkg -i nomachine.deb
 
 # Create an executable file that starts the NoMachine remote desktop server.
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
