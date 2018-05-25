@@ -55,7 +55,8 @@ RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n'"" > /etc/NX/nxserverStart
 # .. and make it actually executable ...
 RUN chmod +x /etc/NX/nxserverStart.sh
 # Start the nomachine-remote server and ...
-RUN ["/etc/NX/nxserverStart.sh"]
+ENTRYPOINT [ "/etc/NX/nxserverStart.sh"]
+
 # .. continously monitor the NoMachine server log, and ...
 #RUN ["tail", "-f", "/usr/NX/var/log/nxserver.log", "--lines=30"]
 #ENTRYPOINT ["tail", "-f", "/usr/NX/var/log/nxserver.log"]
