@@ -45,7 +45,7 @@ RUN groupadd -r $USER -g 433 \
 
 
 
-RUN /etc/NX/nxserver --startup
+CMD ["/etc/NX/nxserver", "--startup"]
 # tail -f /usr/NX/var/log/nxserver.log
 
 # Start the nomachine-remote server
