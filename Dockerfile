@@ -56,13 +56,8 @@ RUN apt-get update -y && \
 
 # Install git
 RUN apt-get install -y git
-# Install python
-# RUN apt-get install -y python3.6 - fails, why? try it manually.
-
-# Install python
-RUN add-apt-repository ppa:jonathonf/python-3.6
-RUN apt update
-RUN apt install python3.6
+# Install Python.
+# Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
 
 # Install Visual Studio Code
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
