@@ -58,6 +58,9 @@ RUN apt-get install -y git
 # Install python
 # RUN apt-get install -y python3.6 - fails, why? try it manually.
 
+# Install python
+RUN apt-get install Python3.6
+
 # Install Visual Studio Code
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
 RUN curl -fSL "${VSCODEPATH}" -o vscode.deb \
@@ -66,13 +69,21 @@ RUN curl -fSL "${VSCODEPATH}" -o vscode.deb \
 # To make it easier to automate and configure VS Code, it is possible to list, install, 
 # and uninstall extensions from the command line. When identifying an extension, provide 
 # the full name of the form publisher.extension, for example donjayamanne.python.
+USER $USER
+WORKDIR /home/$USER
+
+# Enable viewing git log, file history, compare branches and commits - https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory
+RUN code --install-extension donjayamanne.githistory
+# Install Ms' python - linting, debugging, intellisense, etc.
+RUN code --install-extension ms-python.python
+# Install code outline provider - better code visualization in the explorer pane
+RUN code --install-extension patrys.vscode-code-outline
 
 
+# Annnnnd back to root for the remainder of this session.
+USER root
 
-
-
-
-# Create an executable file that starts the server... 
+# Create an executable file that starts the NoMachine remote desktop server.
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
 # Note how the file ends with a /bin/bash-command. That's deliberate, it allows
 # us do - don't ask me how - keep the container running when we use it later.
