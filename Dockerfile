@@ -21,15 +21,7 @@ RUN curl -fSL "http://download.nomachine.com/download/6.1/Linux/${NOMACHINE_PACK
 && echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
 && dpkg -i nomachine.deb
 
-# copy the nxserver.sh script. 
-#COPY nxserver.sh /
-#RUN ["chmod", "+x", "/nxserver.sh"]
-
 # Let's add a user:
-# We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
-# RUN useradd -ms /bin/bash newuser
-# RUN echo 'newuser:password' | chpasswd
-#ENV HOME=''
 ENV USER='newuser'
 ENV PASSWORD='password'
 
@@ -42,19 +34,15 @@ RUN groupadd -r $USER -g 433 \
 
 # Install Visual Studio Code
 # ...foobar...
+# We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
 
 # Create an executable file that starts the server... 
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
 RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n/bin/bash'"" > /etc/NX/nxserverStart.sh
 # .. and make it actually executable ...
 RUN chmod +x /etc/NX/nxserverStart.sh
-# ... and let the docker container start as an executable
-#ENTRYPOINT [ "/bin/sh", "/etc/NX/nxserver", "--startup"]
-# ENTRYPOINT [ "/bin/sh", "nxserver", "--startup"]
-# tail -f /usr/NX/var/log/nxserver.log
-
 # Start the nomachine-remote server when the container runs, and ...
 CMD ["/etc/NX/nxserverStart.sh"]
 #... happy developing!
 
-
+# PS remember to run the container with the -d and -t arguments. Check the readme.md file.
