@@ -36,15 +36,23 @@ RUN groupadd -r $USER -g 433 \
 # ...foobar...
 # We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
 
-# Configure timezone and locale to spanish and America/Bogota timezone. Change locale and timezone to whatever you want
- ENV LANG="da_DK.UTF-8"
- ENV LANGUAGE=da_DK
- RUN locale-gen da_DK.UTF-8 && locale-gen da_DK
+# Configure timezone and locale to en_US. Change locale and timezone to whatever you want.
+ ENV LANG="en_US.UTF-8"
+ ENV LANGUAGE=en_US
+ RUN locale-gen en_US.UTF-8 && locale-gen en_US
  RUN echo "Europe/Copenhagen" > /etc/timezone && \
      apt-get install -y locales && \
      sed -i -e "s/# $LANG.*/$LANG.UTF-8 UTF-8/" /etc/locale.gen && \
      dpkg-reconfigure --frontend=noninteractive locales && \
      update-locale LANG=$LANG
+
+# Use the Xfce desktop. Because it's nice to look at.
+RUN apt-get update -y && \
+    apt-get install -y xfce4
+# There's also the MATE desktop-enviroment. Bit more light-weight.
+#RUN apt-get update -y && \
+#   apt-get install -y mate-desktop-environment-extras    
+
 
 
 # Create an executable file that starts the server... 
