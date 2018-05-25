@@ -22,7 +22,7 @@ RUN curl -fSL "http://download.nomachine.com/download/6.1/Linux/${NOMACHINE_PACK
 && dpkg -i nomachine.deb
 
 # Let's add a user:
-ENV USER='newuser'
+ENV USER='thecoder'
 ENV PASSWORD='password'
 
 RUN groupadd -r $USER -g 433 \
@@ -38,11 +38,13 @@ RUN groupadd -r $USER -g 433 \
 
 # Create an executable file that starts the server... 
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
+# Note how the file ends with a /bin/bash-command. That's deliberate, it allows
+# us do - don't ask me how - keep the container running when we use it later.
 RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n/bin/bash'"" > /etc/NX/nxserverStart.sh
-# .. and make it actually executable ...
+# Now make the executable _actually_ executable ...
 RUN chmod +x /etc/NX/nxserverStart.sh
-# Start the nomachine-remote server when the container runs, and ...
+# ... and start the nomachine-remote server when the container runs, and ...
 CMD ["/etc/NX/nxserverStart.sh"]
-#... happy developing!
-
-# PS remember to run the container with the -d and -t arguments. Check the readme.md file.
+#... happy developing! Use a NoMachine-client program to log into the server.
+# PS: remember to run the container with the -d and -t arguments. 
+# Check the readme.md file, https://github.com/harleydk/linuxRemoteDocker/blob/master/README.md
