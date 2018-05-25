@@ -29,7 +29,7 @@ RUN curl -fSL "http://download.nomachine.com/download/6.1/Linux/${NOMACHINE_PACK
 # We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
 # RUN useradd -ms /bin/bash newuser
 # RUN echo 'newuser:password' | chpasswd
-
+#ENV HOME=''
 ENV USER='newuser'
 ENV PASSWORD='password'
 
@@ -42,7 +42,7 @@ RUN groupadd -r $USER -g 433 \
 
 # Install Visual Studio Code
 
-WORKDIR $HOME
+WORKDIR HOME
 
 # Create an executable file that starts the server... 
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
