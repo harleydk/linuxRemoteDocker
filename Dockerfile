@@ -47,14 +47,14 @@ RUN groupadd -r $USER -g 433 \
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
 RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n'"" > /etc/NX/nxserverStart.sh
 # .. and make it actually executable ...
-RUN chmod +x /etc/NX/nxserverStart.sh
+RUN [chmod +x /etc/NX/nxserverStart.sh
 # ... and let the docker container start as an executable
 #ENTRYPOINT [ "/bin/sh", "/etc/NX/nxserver", "--startup"]
 # ENTRYPOINT [ "/bin/sh", "nxserver", "--startup"]
 # tail -f /usr/NX/var/log/nxserver.log
 
 # Start the nomachine-remote server when the container runs, and ...
-ENTRYPOINT ["/etc/NX/nxserverStart.sh"]
+CMD ["/etc/NX/nxserverStart.sh"]
 #... happy developing!
 
 
