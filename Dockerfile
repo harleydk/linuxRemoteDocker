@@ -38,7 +38,7 @@ RUN groupadd -r $USER -g 433 \
 # ...foobar...
 # Let's add a user:
 
-# Change into this new user and install VS code
+# Change into this new user and install VS code extension.
 USER $USER
 
 
@@ -51,14 +51,15 @@ USER root
 
 # Create an executable file that starts the server... 
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
-RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n'"" > /etc/NX/nxserverStart.sh
+#RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n'"" > /etc/NX/nxserverStart.sh
 # .. and make it actually executable ...
-RUN chmod +x /etc/NX/nxserverStart.sh
+#RUN chmod +x /etc/NX/nxserverStart.sh
+
 # Start the nomachine-remote server and ...
-RUN ["/etc/NX/nxserverStart.sh"]
+RUN ["/etc/NX/nxserver --startup"]
 #... happy developing!
 
-# How to run an image? Like so:
+# How to run the image? Like so:
 # docker run -d -t -p 4000:4000 --name 'linux_remote_pc' --cap-add=SYS_PTRACE 'linux_remote_pc_image'
 
 
