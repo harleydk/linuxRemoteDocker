@@ -5,5 +5,7 @@
 #&& mkdir /home/$USER \
 #&& chown -R $USER:$USER /home/$USER \
 #&& echo $USER':'$PASSWORD | chpasswd
-#/etc/NX/nxserver --startup
-#tail -f /usr/NX/var/log/nxserver.log
+
+# start the nomachine remote desktop server
+/etc/NX/nxserver --startup
+tail -f /usr/NX/var/log/nxserver.log
