@@ -3,7 +3,7 @@ FROM ubuntu:17.10
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Some general updates.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
 RUN apt-get install -y software-properties-common 
 RUN add-apt-repository universe
 RUN apt-get install -y cups curl libgconf2-4 iputils-ping libnss3-1d libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
