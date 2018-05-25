@@ -17,15 +17,19 @@ RUN apt-get update -y && \
 # RUN useradd -ms /bin/bash newuser
 # RUN echo 'newuser:password' | chpasswd
 
-ENV USER='newuser'
-ENV PASSWORD='password'
+#ENV USER='newuser'
+#ENV PASSWORD='password'
 
-RUN groupadd -r $USER -g 433 \
-    && useradd -u 431 -r -g $USER -d /home/$USER -s /bin/bash -c "$USER" $USER \
-     && adduser $USER sudo \
-     && mkdir /home/$USER \
-     && chown -R $USER:$USER /home/$USER \
-     && echo $USER':'$PASSWORD | chpasswd
+#The trick is to use useradd instead of its interactive wrapper adduser. I usually create users with:
+RUN useradd --create-home --shell /bin/bash newuser
+RUN echo 'newuser:password' | chpasswd
+
+# RUN groupadd -r $USER -g 433 \
+#     && useradd -u 431 -r -g $USER -d /home/$USER -s /bin/bash -c "$USER" $USER \
+#      #&& adduser $USER sudo \
+#      && mkdir /home/$USER \
+#      && chown -R $USER:$USER /home/$USER \
+#      && echo $USER':'$PASSWORD | chpasswd
 
 
 # Install Visual Studio Code

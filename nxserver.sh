@@ -7,5 +7,5 @@
 #&& echo $USER':'$PASSWORD | chpasswd
 
 # start the nomachine remote desktop server
-/etc/NX/nxserver --startup
+/etc/NX/nxserver --useradd newuser --startup
 tail -f /usr/NX/var/log/nxserver.log
