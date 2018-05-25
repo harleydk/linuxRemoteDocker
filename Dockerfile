@@ -55,7 +55,7 @@ RUN chmod +x nxserver.sh
 # tail -f /usr/NX/var/log/nxserver.log
 
 # Start the nomachine-remote server when the container runs, and ...
-ENTRYPOINT ["/nxserver.sh"]
+ENTRYPOINT ["nxserver.sh"]
 #... happy developing!
 
 
