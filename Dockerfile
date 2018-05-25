@@ -22,8 +22,8 @@ RUN curl -fSL "http://download.nomachine.com/download/6.1/Linux/${NOMACHINE_PACK
 && dpkg -i nomachine.deb
 
 # copy the nxserver.sh script. 
-COPY nxserver.sh /
-RUN ["chmod", "+x", "/nxserver.sh"]
+#COPY nxserver.sh /
+#RUN ["chmod", "+x", "/nxserver.sh"]
 
 # Let's add a user:
 # We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
@@ -43,6 +43,11 @@ RUN groupadd -r $USER -g 433 \
 # Install Visual Studio Code
 
 
+
+
+RUN /etc/NX/nxserver --startup
+# tail -f /usr/NX/var/log/nxserver.log
+
 # Start the nomachine-remote server
-ENTRYPOINT ["/nxserver.sh"]
+#ENTRYPOINT ["/nxserver.sh"]
 
