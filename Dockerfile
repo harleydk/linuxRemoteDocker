@@ -42,20 +42,20 @@ RUN groupadd -r $USER -g 433 \
 
 # Install Visual Studio Code
 
-WORKDIR /
+WORKDIR $HOME
 
 # Create an executable file that starts the server... 
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
-RUN printf "#!/bin/bash\n/etc/NX/nxserver --startup" > nxserver.sh
+RUN printf "#!/bin/bash\n/etc/NX/nxserver --startup" > $HOME/nxserver.sh
 # .. and make it actually executable ...
-RUN chmod +x nxserver.sh
+RUN chmod +x $HOME/nxserver.sh
 # ... and let the docker container start as an executable
 #ENTRYPOINT [ "/bin/sh", "/etc/NX/nxserver", "--startup"]
 # ENTRYPOINT [ "/bin/sh", "nxserver", "--startup"]
 # tail -f /usr/NX/var/log/nxserver.log
 
 # Start the nomachine-remote server when the container runs, and ...
-ENTRYPOINT ["nxserver.sh"]
+#ENTRYPOINT ["$HOME/nxserver.sh"]
 #... happy developing!
 
 
