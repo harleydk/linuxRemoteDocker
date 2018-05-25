@@ -36,6 +36,17 @@ RUN groupadd -r $USER -g 433 \
 # ...foobar...
 # We can't install VS Code extentions as super-user, so we'll revert to a regular user as we do that:
 
+# Configure timezone and locale to spanish and America/Bogota timezone. Change locale and timezone to whatever you want
+ ENV LANG="da_DK.UTF-8"
+ ENV LANGUAGE=da_DK
+ RUN locale-gen da_DK.UTF-8 && locale-gen da_DK
+ RUN echo "Europe/Copenhagen" > /etc/timezone && \
+     apt-get install -y locales && \
+     sed -i -e "s/# $LANG.*/$LANG.UTF-8 UTF-8/" /etc/locale.gen && \
+     dpkg-reconfigure --frontend=noninteractive locales && \
+     update-locale LANG=$LANG
+
+
 # Create an executable file that starts the server... 
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
 # Note how the file ends with a /bin/bash-command. That's deliberate, it allows
@@ -48,3 +59,6 @@ CMD ["/etc/NX/nxserverStart.sh"]
 #... happy developing! Use a NoMachine-client program to log into the server.
 # PS: remember to run the container with the -d and -t arguments. 
 # Check the readme.md file, https://github.com/harleydk/linuxRemoteDocker/blob/master/README.md
+
+
+
