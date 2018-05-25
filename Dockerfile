@@ -53,6 +53,23 @@ RUN apt-get update -y && \
 #RUN apt-get update -y && \
 #   apt-get install -y mate-desktop-environment-extras    
 
+# Install git
+RUN apt-get install -y git
+# Install python
+# RUN apt-get install -y python3.6 - fails, why? try it manually.
+
+# Install Visual Studio Code
+ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
+RUN curl -fSL "${VSCODEPATH}" -o vscode.deb \
+&& dpkg -i vscode.deb
+
+# To make it easier to automate and configure VS Code, it is possible to list, install, 
+# and uninstall extensions from the command line. When identifying an extension, provide 
+# the full name of the form publisher.extension, for example donjayamanne.python.
+
+
+
+
 
 
 # Create an executable file that starts the server... 
