@@ -45,7 +45,7 @@ RUN groupadd -r $USER -g 433 \
 
 # Create an executable file that starts the server... 
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
-RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup'"" > /etc/NX/nxserverStart.sh
+RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n/bin/bash'"" > /etc/NX/nxserverStart.sh
 # .. and make it actually executable ...
 RUN chmod +x /etc/NX/nxserverStart.sh
 # ... and let the docker container start as an executable
