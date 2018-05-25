@@ -59,7 +59,9 @@ RUN apt-get install -y git
 # RUN apt-get install -y python3.6 - fails, why? try it manually.
 
 # Install python
-RUN apt-get install Python3.6
+RUN add-apt-repository ppa:jonathonf/python-3.6
+RUN apt update
+RUN apt install python3.6
 
 # Install Visual Studio Code
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
