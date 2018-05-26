@@ -17,7 +17,7 @@ docker build -t=linux_remote_pc_image .
 Running it:
 
 ```
-docker run -d -t -p 4000:4000 --name 'linux_remote_pc' --cap-add=SYS_PTRACE 'linux_remote_pc_image' 
+docker run -d -t -p 4000:4000 --name=linux_remote_pc --cap-add=SYS_PTRACE linux_remote_pc_image
 ```
 
 Where...
