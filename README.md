@@ -41,3 +41,10 @@ Where...
 Download the NoMachine client from: https://www.nomachine.com/download, install the client, create a new connection to your public ip, port 4000, NX protocol, use enviroment user and password for authentication (make sure to setup enviroment variables for that)
 
 User-name is 'thecoder'. Password is, well, 'password'. Just change it in the Dockerfile if you'd rather have it differently.
+
+
+## Hope it's useful
+
+Hope it's useful to you! Let me know if there's anything I can do - just create an issue within these pages and I'll try be of help, if I can. Please consider supporting my coffee-habit if you can.
+
+<a href="https://www.buymeacoffee.com/Ghi82pFzV" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
