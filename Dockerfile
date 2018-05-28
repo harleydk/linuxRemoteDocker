@@ -1,19 +1,17 @@
-# 
+# Get the distro:
 FROM ubuntu:17.10
-
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Some general updates.
+# Do some general updates.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
 RUN apt-get install -y software-properties-common 
 RUN add-apt-repository universe
 RUN apt-get install -y cups curl libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
 RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales
 
-# Let's add a user:
+# Let's add a user, so we have a chance to, well, actually use the machine.
 ENV USER='thecoder'
 ENV PASSWORD='password'
-
 RUN groupadd -r $USER -g 433 \
      && useradd -u 431 -r -g $USER -d /home/$USER -s /bin/bash -c "$USER" $USER \
       #&& adduser $USER sudo \
@@ -21,7 +19,7 @@ RUN groupadd -r $USER -g 433 \
       && chown -R $USER:$USER /home/$USER \
       && echo $USER':'$PASSWORD | chpasswd
 
-# Configure timezone and locale to en_US. Change locale and timezone to whatever you want.
+# Configure timezone and locale to en_US. __Change locale and timezone to whatever you want.__
  ENV LANG="en_US.UTF-8"
  ENV LANGUAGE=en_US
  RUN locale-gen en_US.UTF-8 && locale-gen en_US
@@ -31,7 +29,7 @@ RUN groupadd -r $USER -g 433 \
      dpkg-reconfigure --frontend=noninteractive locales && \
      update-locale LANG=$LANG
 
-# Use the Xfce desktop. Because it's nice to look at.
+# Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
     apt-get install -y xfce4
 # There's also the MATE desktop-enviroment. Bit more light-weight.
