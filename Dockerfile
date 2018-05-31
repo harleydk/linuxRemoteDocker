@@ -42,9 +42,10 @@ RUN groupadd $SUDOUSER \
 # Create an keyboard-layout file, so we won't have to set it every time the machine starts. Just replace XKBLAYOUT="dk" with your layout, ex. "us".
 RUN printf '# Consult the keyboard(5) manual page.\nXKBMODEL="pc105"\nXKBLAYOUT="dk"\nXKBVARIANT=""\nXKBOPTIONS=""\nBACKSPACE="guess"\n'"" > /etc/default/keyboard
 
-# Install some much needed programs - nano, midnight commander
+# Install some much needed programs - nano, midnight commander, guake terminal
 RUN apt-get install nano -y
 RUN apt-get install mc -y
+RUN apt-get install guake -y
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
@@ -96,6 +97,8 @@ RUN curl -fSL "http://download.nomachine.com/download/6.1/Linux/${NOMACHINE_PACK
 && echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
 && dpkg -i nomachine.deb
 
+# set danish keyboard layout
+RUN setxkbmap dk
 
 # Create an executable file that starts the NoMachine remote desktop server.
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
