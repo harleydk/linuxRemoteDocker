@@ -13,11 +13,21 @@ RUN apt-get update -y && apt-get install -y software-properties-common && apt-ge
 ENV USER='thecoder'
 ENV PASSWORD='password'
 RUN groupadd -r $USER -g 433 \
-     && useradd -u 431 -r -g $USER -d /home/$USER -s /bin/bash -c "$USER" $USER \
-      #&& adduser $USER sudo \
-      && mkdir /home/$USER \
-      && chown -R $USER:$USER /home/$USER \
-      && echo $USER':'$PASSWORD | chpasswd
+    && useradd -u 431 -r -g $USER -d /home/$USER -s /bin/bash -c "$USER" $USER \
+    && adduser $USER sudo \
+    && mkdir /home/$USER \
+    && chown -R $USER:$USER /home/$USER \
+    && echo $USER':'$PASSWORD | chpasswd
+
+# Let's add a super user, too. Same password
+ENV SUDOUSER='theadmin'
+ENV PASSWORD='password'
+RUN groupadd -r $SUDOUSER -g 433 \
+    && useradd -u 431 -r -g $SUDOUSER -d /home/$SUDOUSER -s /bin/bash -c "$SUDOUSER" $SUDOUSER \
+    && adduser $SUDOUSER sudo \
+    && mkdir /home/$SUDOUSER \
+    && chown -R $SUDOUSER:$SUDOUSER /home/$SUDOUSER \
+    && echo $SUDOUSER':'$PASSWORD | chpasswd
 
 # Configure timezone and locale to en_US. __Change locale and timezone to whatever you want.__
  ENV LANG="en_US.UTF-8"
