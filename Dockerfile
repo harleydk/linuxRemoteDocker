@@ -46,10 +46,10 @@ RUN apt-get install -y git
 # Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
 
 # Install Firefox
-RUN apt-get install Firefox -y
+RUN apt-get install firefox -y
 
 # Install Postman
-RUN apt-get install Postman -y
+RUN apt-get install postman -y
 
 
 # Install Visual Studio Code
