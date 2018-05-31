@@ -29,9 +29,8 @@ RUN groupadd -r $USER -g 433 \
      dpkg-reconfigure --frontend=noninteractive locales && \
      update-locale LANG=$LANG
 
-# Create an keyboard-layout file, so we won't have to set it every time the machine starts
-RUN printf '# Consult the keyboard(5) manual page.\nXKBMODEL="pc105"\nXKBLAYOUT="us"\nXKBVARIANT=""\nXKBOPTIONS=""\nBACKSPACE="guess"\n'"" > /etc/default/keyboard
-#COPY ./keyboard /etc/default/keyboard
+# Create an keyboard-layout file, so we won't have to set it every time the machine starts. Just replace XKBLAYOUT="dk" with your layout, ex. "us".
+RUN printf '# Consult the keyboard(5) manual page.\nXKBMODEL="pc105"\nXKBLAYOUT="dk"\nXKBVARIANT=""\nXKBOPTIONS=""\nBACKSPACE="guess"\n'"" > /etc/default/keyboard
 
 # Install some much needed programs - nano, midnight commander
 RUN apt-get install nano -y
