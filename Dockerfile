@@ -6,8 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
 RUN apt-get install -y software-properties-common 
 RUN add-apt-repository universe
-RUN apt-get install -y cups curl libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
-RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales
+RUN apt-get install -y cups curl sudo libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
+RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales 
 
 # Let's add a user, so we have a chance to, well, actually use the machine.
 ENV USER='thecoder'
@@ -48,18 +48,14 @@ RUN apt-get install -y git
 # Install Firefox
 RUN apt-get install firefox -y
 
-# Install Postman
-# RUN apt-get install postman -y
-# wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
-# sudo tar -xzf postman.tar.gz -C /opt
-# rm postman.tar.gz
-# sudo ln -s /opt/Postman/Postman /usr/bin/postman
-
+# Install Postman to 'opt' dir
+RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+RUN tar -xzf postman.tar.gz -C /opt
+RUN rm postman.tar.gz
 
 # Install Visual Studio Code
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
-RUN curl -fSL "${VSCODEPATH}" -o vscode.deb \
-&& dpkg -i vscode.deb
+RUN curl -fSL "${VSCODEPATH}" -o vscode.deb && dpkg -i vscode.deb
 
 # To make it easier to automate and configure VS Code, it is possible to list, install, 
 # and uninstall extensions from the command line. When identifying an extension, provide 
