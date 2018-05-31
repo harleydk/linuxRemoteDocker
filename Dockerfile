@@ -29,6 +29,10 @@ RUN groupadd -r $USER -g 433 \
      dpkg-reconfigure --frontend=noninteractive locales && \
      update-locale LANG=$LANG
 
+# Create an keyboard-layout file, so we won't have to set it every time the machine starts
+RUN printf '# Consult the keyboard(5) manual page.\nXKBMODEL="pc105"\nXKBLAYOUT="us"\nXKBVARIANT=""\nXKBOPTIONS=""\nBACKSPACE="guess"\n'"" > /etc/default/keyboard
+#COPY ./keyboard /etc/default/keyboard
+
 # Install some much needed programs - nano, midnight commander
 RUN apt-get install nano -y
 RUN apt-get install mc -y
@@ -82,6 +86,7 @@ ENV NOMACHINE_MD5 00b7695404b798034f6a387cf62aba84
 RUN curl -fSL "http://download.nomachine.com/download/6.1/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
 && echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
 && dpkg -i nomachine.deb
+
 
 # Create an executable file that starts the NoMachine remote desktop server.
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
