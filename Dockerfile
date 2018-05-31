@@ -29,6 +29,10 @@ RUN groupadd -r $USER -g 433 \
      dpkg-reconfigure --frontend=noninteractive locales && \
      update-locale LANG=$LANG
 
+# Install some much needed programs - nano, midnight commander
+RUN apt-get install nano
+RUN apt-get install mc
+
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
     apt-get install -y xfce4
@@ -40,6 +44,13 @@ RUN apt-get update -y && \
 RUN apt-get install -y git
 # Install Python.
 # Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
+
+# Install Firefox
+RUN apt-get install Firefox
+
+# Install Postman
+RUN apt-get install Postman
+
 
 # Install Visual Studio Code
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
