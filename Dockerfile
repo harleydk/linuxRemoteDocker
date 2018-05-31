@@ -23,7 +23,7 @@ RUN groupadd -r $USER -g 433 \
 ENV SUDOUSER='theadmin'
 ENV PASSWORD='password'
 RUN groupadd $SUDOUSER \
-    && useradd -u 431 -r -g $SUDOUSER -d /home/$SUDOUSER -s /bin/bash -c "$SUDOUSER" $SUDOUSER \
+    && useradd -r -g $SUDOUSER -d /home/$SUDOUSER -s /bin/bash -c "$SUDOUSER" $SUDOUSER \
     && adduser $SUDOUSER sudo \
     && mkdir /home/$SUDOUSER \
     && chown -R $SUDOUSER:$SUDOUSER /home/$SUDOUSER \
