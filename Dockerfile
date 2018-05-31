@@ -22,7 +22,7 @@ RUN groupadd -r $USER -g 433 \
 # Let's add a super user, too. Same password
 ENV SUDOUSER='theadmin'
 ENV PASSWORD='password'
-RUN groupadd $SUDOUSER -g 433 \
+RUN groupadd $SUDOUSER \
     && useradd -u 431 -r -g $SUDOUSER -d /home/$SUDOUSER -s /bin/bash -c "$SUDOUSER" $SUDOUSER \
     && adduser $SUDOUSER sudo \
     && mkdir /home/$SUDOUSER \
