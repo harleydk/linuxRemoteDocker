@@ -65,6 +65,8 @@ RUN apt-get install -y git
 # Install miniconda, for Python virtual environmentaziation
 # RUN curl -fSL "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" -o Miniconda3-latest-Linux-x86_64.sh
 # RUN bash Miniconda3-latest-Linux-x86_64.sh -b
+# Enable conda
+# RUN echo ". /home/theadmin/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc
 # RUN conda create -n <name_of_env> python=3.6 -y
 
 # Install Firefox
