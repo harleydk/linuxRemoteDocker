@@ -62,6 +62,11 @@ RUN apt-get install -y git
 # Install Python.
 # Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
 
+# Install miniconda, for Python virtual environmentaziation
+# RUN curl -fSL "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" -o Miniconda3-latest-Linux-x86_64.sh
+# RUN bash Miniconda3-latest-Linux-x86_64.sh -b
+
+
 # Install Firefox
 RUN apt-get install firefox -y
 
