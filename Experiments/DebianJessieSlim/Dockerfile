@@ -7,7 +7,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
 # RUN apt-get install -y software-properties-common
 # RUN apt-get install -y cups - for printing
-RUN apt-get install -y curl 
 RUN apt-get install -y sudo 
 RUN apt-get install -y libgconf2-4 
 RUN apt-get install -y iputils-ping 
@@ -76,6 +75,7 @@ ENV NOMACHINE_MAJOR_VERSION "6.2"
 ENV NOMACHINE_PACKAGE_NAME "nomachine_6.2.4_1_amd64.deb"
 ENV NOMACHINE_MD5 "210bc249ec9940721a1413392eee06fe"
 
+RUN apt-get install -y curl
 RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
 && echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
 && dpkg -i nomachine.deb
