@@ -37,11 +37,9 @@ RUN groupadd $SUDOUSER \
     && echo $SUDOUSER':'$PASSWORD | chpasswd
 
 
-# Use the Xfce desktop. Because it's nice to look at, in my opinion.
-# Thanks, https://linuxhint.com/install-xfce-desktop-on-debian-9-stretch/!
-RUN apt-get install -y xfce4
-# RUN systemctl set-default graphical.target
-
+# Use the Lxde desktop. Because it's minute in size.
+# RUN apt-get install -y xfce4
+RUN apt-get install -y lxde-core
 
 # There's also the MATE desktop-enviroment. Bit more light-weight.
 #RUN apt-get update -y && \
