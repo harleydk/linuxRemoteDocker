@@ -12,7 +12,7 @@ RUN apt-get install -y libgconf2-4
 RUN apt-get install -y iputils-ping 
 RUN apt-get install -y libxss1 
 RUN apt-get install -y wget 
-RUN apt-get install -y xdg-utils 
+# RUN apt-get install -y xdg-utils 
 RUN apt-get install -y libpango1.0-0 
 # RUN apt-get install -y fonts-liberation
 
@@ -39,8 +39,7 @@ RUN groupadd $SUDOUSER \
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 # Thanks, https://linuxhint.com/install-xfce-desktop-on-debian-9-stretch/!
-# RUN apt-get update -y && \
-#    apt-get install -y xfce4
+RUN apt-get install -y xfce4
 # RUN systemctl set-default graphical.target
 
 
@@ -75,7 +74,7 @@ ENV NOMACHINE_MAJOR_VERSION "6.2"
 ENV NOMACHINE_PACKAGE_NAME "nomachine_6.2.4_1_amd64.deb"
 ENV NOMACHINE_MD5 "210bc249ec9940721a1413392eee06fe"
 
-RUN apt-get install -y curl
+RUN apt-get install -y curl 
 RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
 && echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
 && dpkg -i nomachine.deb
