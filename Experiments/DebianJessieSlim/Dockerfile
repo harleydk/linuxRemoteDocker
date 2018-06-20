@@ -38,7 +38,7 @@ RUN groupadd $SUDOUSER \
 
 
 # Use the xxx desktop. Because it's minute in size.
-RUN apt-get install -y --no-install-recommends lubuntu-desktop 
+RUN apt-get install -y lubuntu-desktop 
 
 # There's also the MATE desktop-enviroment. Bit more light-weight.
 #RUN apt-get update -y && \
