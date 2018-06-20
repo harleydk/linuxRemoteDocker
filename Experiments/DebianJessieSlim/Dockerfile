@@ -68,18 +68,19 @@ ENV NOMACHINE_MAJOR_VERSION "6.2"
 ENV NOMACHINE_PACKAGE_NAME "nomachine_6.2.4_1_amd64.deb"
 ENV NOMACHINE_MD5 "210bc249ec9940721a1413392eee06fe"
 
-RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb
-
+RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
+&& echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
+&& dpkg -i nomachine.deb
 
 # Create an executable file that starts the NoMachine remote desktop server.
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
 # Note how the file ends with a /bin/bash-command. That's deliberate, it allows
 # us do - don't ask me how - keep the container running when we use it later.
-#RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n/bin/bash'"" > /etc/NX/nxserverStart.sh
+RUN printf '#!/bin/bash\n/etc/NX/nxserver --startup\n/bin/bash'"" > /etc/NX/nxserverStart.sh
 # Now make the executable _actually_ executable ...
-#RUN chmod +x /etc/NX/nxserverStart.sh
+RUN chmod +x /etc/NX/nxserverStart.sh
 # ... and start the nomachine-remote server when the container runs, and ...
-#CMD ["/etc/NX/nxserverStart.sh"]
+CMD ["/etc/NX/nxserverStart.sh"]
 #... happy developing! Use a NoMachine-client program to log into the server.
 # PS: remember to run the container with the -d and -t arguments. 
 # Check the readme.md file, https://github.com/harleydk/linuxRemoteDocker/blob/master/README.md
