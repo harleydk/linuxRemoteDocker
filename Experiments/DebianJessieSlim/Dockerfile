@@ -29,22 +29,6 @@ RUN groupadd $SUDOUSER \
     && chown -R $SUDOUSER:$SUDOUSER /home/$SUDOUSER \
     && echo $SUDOUSER':'$PASSWORD | chpasswd
 
-# Configure timezone and locale to en_US. __Change locale and timezone to whatever you want.__
- ENV LANG="en_US.UTF-8"
- ENV LANGUAGE=en_US
- RUN locale-gen en_US.UTF-8 && locale-gen en_US
- RUN echo "Europe/Copenhagen" > /etc/timezone && \
-     apt-get install -y locales && \
-     sed -i -e "s/# $LANG.*/$LANG.UTF-8 UTF-8/" /etc/locale.gen && \
-     dpkg-reconfigure --frontend=noninteractive locales && \
-     update-locale LANG=$LANG
-
-# Create an keyboard-layout file, so we won't have to set it every time the machine starts. Just replace XKBLAYOUT="dk" with your layout, ex. "us".
-# RUN printf '# Consult the keyboard(5) manual page.\nXKBMODEL="pc105"\nXKBLAYOUT="dk"\nXKBVARIANT=""\nXKBOPTIONS=""\nBACKSPACE="guess"\n'"" > /etc/default/keyboard
-# - doesn't work :(
-# set danish keyboard layout
-# RUN setxkbmap dk  - doesnt work :(
-
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
