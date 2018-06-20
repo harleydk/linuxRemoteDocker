@@ -37,9 +37,8 @@ RUN groupadd $SUDOUSER \
     && echo $SUDOUSER':'$PASSWORD | chpasswd
 
 
-# Use the Lxde desktop. Because it's minute in size.
-# RUN apt-get install -y xfce4
-RUN apt-get install -y lxde-core
+# Use the xxx desktop. Because it's minute in size.
+RUN apt-get install --no-install-recommends lubuntu-desktop 
 
 # There's also the MATE desktop-enviroment. Bit more light-weight.
 #RUN apt-get update -y && \
