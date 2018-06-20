@@ -31,8 +31,12 @@ RUN groupadd $SUDOUSER \
 
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
+# Thanks, https://linuxhint.com/install-xfce-desktop-on-debian-9-stretch/!
 RUN apt-get update -y && \
-    apt-get install -y xfce4
+    apt-get install -y task-xfce-desktop
+RUN systemctl set-default graphical.target
+
+
 # There's also the MATE desktop-enviroment. Bit more light-weight.
 #RUN apt-get update -y && \
 #   apt-get install -y mate-desktop-environment-extras    
