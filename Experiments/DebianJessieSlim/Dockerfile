@@ -64,13 +64,11 @@ USER root
 
 # Install nomachine, the remote-desktop server that enables us to remote into the container image.
 # You don't have to rely on my choice of NoMachine - just go to their website and get a different one, if you want.
-ENV NOMACHINE_MAJOR_VERSION = "6.2"
-ENV NOMACHINE_PACKAGE_NAME nomachine_6.2.4_1_amd64.deb
-ENV NOMACHINE_MD5 210bc249ec9940721a1413392eee06fe
+ENV NOMACHINE_MAJOR_VERSION "6.2"
+ENV NOMACHINE_PACKAGE_NAME "nomachine_6.2.4_1_amd64.deb"
+ENV NOMACHINE_MD5 "210bc249ec9940721a1413392eee06fe"
 
-RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
-&& echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
-&& dpkg -i nomachine.deb
+RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb
 
 
 # Create an executable file that starts the NoMachine remote desktop server.
