@@ -37,13 +37,32 @@ RUN groupadd $SUDOUSER \
     && echo $SUDOUSER':'$PASSWORD | chpasswd
 
 
+
 # Use the Lxde desktop. Because it's minute in size.
 #RUN apt-get install -y xfce4
 RUN apt-get install  -y --no-install-recommends lxde-core
 
-# There's also the MATE desktop-enviroment. Bit more light-weight.
-#RUN apt-get update -y && \
-#   apt-get install -y mate-desktop-environment-extras    
+
+# Install some much needed programs - nano, midnight commander, guake terminal
+RUN apt-get install nano -y
+RUN apt-get install mc -y
+RUN apt-get install guake -y
+
+# Install git
+RUN apt-get install -y git
+
+
+# Install Firefox
+RUN apt-get install firefox -y
+
+# Install Postman to 'opt' dir
+RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+RUN tar -xzf postman.tar.gz -C /opt
+RUN rm postman.tar.gz
+
+# Install Visual Studio Code
+ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
+RUN curl -fSL "${VSCODEPATH}" -o vscode.deb && dpkg -i vscode.deb
 
 # Install Python.
 # Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
