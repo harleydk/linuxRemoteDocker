@@ -69,7 +69,6 @@ ENV NOMACHINE_PACKAGE_NAME nomachine_6.2.4_1_amd64.deb
 ENV NOMACHINE_MD5 210bc249ec9940721a1413392eee06fe
 
 RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
-&& echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
 && dpkg -i nomachine.deb
 
 
