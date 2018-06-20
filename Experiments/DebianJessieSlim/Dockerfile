@@ -1,11 +1,11 @@
 # Get the distro:
-FROM ubuntu:17.10
+FROM debian:stretch-slim
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Do some general updates.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
 RUN apt-get install -y software-properties-common 
-RUN add-apt-repository universe
 RUN apt-get install -y cups curl sudo libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
 RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales 
 
@@ -29,36 +29,18 @@ RUN groupadd $SUDOUSER \
     && chown -R $SUDOUSER:$SUDOUSER /home/$SUDOUSER \
     && echo $SUDOUSER':'$PASSWORD | chpasswd
 
-# Configure timezone and locale to en_US. __Change locale and timezone to whatever you want.__
- ENV LANG="en_US.UTF-8"
- ENV LANGUAGE=en_US
- RUN locale-gen en_US.UTF-8 && locale-gen en_US
- RUN echo "Europe/Copenhagen" > /etc/timezone && \
-     apt-get install -y locales && \
-     sed -i -e "s/# $LANG.*/$LANG.UTF-8 UTF-8/" /etc/locale.gen && \
-     dpkg-reconfigure --frontend=noninteractive locales && \
-     update-locale LANG=$LANG
-
-# Create an keyboard-layout file, so we won't have to set it every time the machine starts. Just replace XKBLAYOUT="dk" with your layout, ex. "us".
-# RUN printf '# Consult the keyboard(5) manual page.\nXKBMODEL="pc105"\nXKBLAYOUT="dk"\nXKBVARIANT=""\nXKBOPTIONS=""\nBACKSPACE="guess"\n'"" > /etc/default/keyboard
-# - doesn't work :(
-# set danish keyboard layout
-# RUN setxkbmap dk  - doesnt work :(
-
-# Install some much needed programs - nano, midnight commander, guake terminal
-RUN apt-get install nano -y
-RUN apt-get install mc -y
-RUN apt-get install guake -y
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
+# Thanks, https://linuxhint.com/install-xfce-desktop-on-debian-9-stretch/!
 RUN apt-get update -y && \
     apt-get install -y xfce4
+RUN systemctl set-default graphical.target
+
+
 # There's also the MATE desktop-enviroment. Bit more light-weight.
 #RUN apt-get update -y && \
 #   apt-get install -y mate-desktop-environment-extras    
 
-# Install git
-RUN apt-get install -y git
 # Install Python.
 # Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
 
@@ -69,30 +51,12 @@ RUN apt-get install -y git
 # RUN echo ". /home/theadmin/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc
 # RUN conda create -n <name_of_env> python=3.6 -y
 
-# Install Firefox
-RUN apt-get install firefox -y
-
-# Install Postman to 'opt' dir
-RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
-RUN tar -xzf postman.tar.gz -C /opt
-RUN rm postman.tar.gz
-
-# Install Visual Studio Code
-ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
-RUN curl -fSL "${VSCODEPATH}" -o vscode.deb && dpkg -i vscode.deb
 
 # To make it easier to automate and configure VS Code, it is possible to list, install, 
 # and uninstall extensions from the command line. When identifying an extension, provide 
 # the full name of the form publisher.extension, for example donjayamanne.python.
 USER $USER
 WORKDIR /home/$USER
-
-# Enable viewing git log, file history, compare branches and commits - https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory
-RUN code --install-extension donjayamanne.githistory
-# Install Ms' python - linting, debugging, intellisense, etc.
-RUN code --install-extension ms-python.python
-# Install code outline provider - better code visualization in the explorer pane
-RUN code --install-extension patrys.vscode-code-outline
 
 
 # Annnnnd back to root for the remainder of this session.
