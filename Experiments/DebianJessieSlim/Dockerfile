@@ -53,7 +53,7 @@ RUN apt-get install -y git
 
 
 # Install Firefox
-RUN apt-get install firefox -y
+# RUN apt-get install firefox -y
 
 # Install Postman to 'opt' dir
 RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
