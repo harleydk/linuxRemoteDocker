@@ -64,6 +64,8 @@ RUN rm postman.tar.gz
 RUN apt-get install -y curl 
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
 RUN curl -fSL "${VSCODEPATH}" -o vscode.deb && dpkg -i vscode.deb
+# Below install missing dependencies from the dpkg-command above.
+RUN apt-get -f install
 
 # Install Python.
 # Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
