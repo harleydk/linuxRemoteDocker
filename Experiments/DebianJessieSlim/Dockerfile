@@ -5,9 +5,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Do some general updates.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
-RUN apt-get install -y software-properties-common 
-RUN apt-get install -y cups curl sudo libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
-RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales 
+# RUN apt-get install -y software-properties-common
+# RUN apt-get install -y cups - for printing
+RUN apt-get install -y sudo 
+RUN apt-get install -y libgconf2-4 
+RUN apt-get install -y iputils-ping 
+RUN apt-get install -y libxss1 
+RUN apt-get install -y wget 
+# RUN apt-get install -y xdg-utils 
+RUN apt-get install -y libpango1.0-0 
+# RUN apt-get install -y fonts-liberation
 
 # Let's add a user, so we have a chance to, well, actually use the machine.
 ENV USER='thecoder'
@@ -30,16 +37,32 @@ RUN groupadd $SUDOUSER \
     && echo $SUDOUSER':'$PASSWORD | chpasswd
 
 
-# Use the Xfce desktop. Because it's nice to look at, in my opinion.
-# Thanks, https://linuxhint.com/install-xfce-desktop-on-debian-9-stretch/!
-RUN apt-get update -y && \
-    apt-get install -y xfce4
-RUN systemctl set-default graphical.target
+
+# Use the Lxde desktop. Because it's minute in size.
+#RUN apt-get install -y xfce4
+RUN apt-get install  -y --no-install-recommends lxde-core
 
 
-# There's also the MATE desktop-enviroment. Bit more light-weight.
-#RUN apt-get update -y && \
-#   apt-get install -y mate-desktop-environment-extras    
+# Install some much needed programs - nano, midnight commander, guake terminal
+RUN apt-get install nano -y
+RUN apt-get install mc -y
+RUN apt-get install guake -y
+
+# Install git
+RUN apt-get install -y git
+
+
+# Install Firefox
+RUN apt-get install firefox -y
+
+# Install Postman to 'opt' dir
+RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+RUN tar -xzf postman.tar.gz -C /opt
+RUN rm postman.tar.gz
+
+# Install Visual Studio Code
+ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
+RUN curl -fSL "${VSCODEPATH}" -o vscode.deb && dpkg -i vscode.deb
 
 # Install Python.
 # Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
@@ -68,8 +91,10 @@ ENV NOMACHINE_MAJOR_VERSION "6.2"
 ENV NOMACHINE_PACKAGE_NAME "nomachine_6.2.4_1_amd64.deb"
 ENV NOMACHINE_MD5 "210bc249ec9940721a1413392eee06fe"
 
-RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb
-
+RUN apt-get install -y curl 
+RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
+&& echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
+&& dpkg -i nomachine.deb
 
 # Create an executable file that starts the NoMachine remote desktop server.
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
