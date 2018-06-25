@@ -63,7 +63,8 @@ RUN rm postman.tar.gz
 # Install Visual Studio Code
 RUN apt-get install -y curl 
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
-RUN curl -fSL "${VSCODEPATH}" -o vscode.deb && dpkg -i vscode.deb
+RUN curl -fSL "${VSCODEPATH}" -o vscode.deb 
+RUN dpkg -i vscode.deb
 # Below install missing dependencies from the dpkg-command above.
 RUN apt-get -f install
 
