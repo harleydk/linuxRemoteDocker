@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
 RUN apt-get install -y software-properties-common 
 RUN add-apt-repository universe
+Run apt-get update -y
 RUN apt-get install -y curl 
 RUN apt-get install -y sudo 
 RUN apt-get install -y libgconf2-4 
