@@ -15,7 +15,7 @@ RUN apt-get install -y wget
 RUN apt-get install -y xdg-utils 
 RUN apt-get install -y libpango1.0-0 
 RUN apt-get install -y fonts-liberation
-RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales 
+RUN apt-get update -y && apt-get install -y -no-install-recommends software-properties-common && apt-get install -y locales 
 
 # Let's add a user, so we have a chance to, well, actually use the machine.
 ENV USER='thecoder'
@@ -105,8 +105,39 @@ RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} &&\
 # Annnnnd back to root for the remainder of this session.
 USER root
 
-# Install Java.
-ENV JAVA_VERSION 1.8.0
+
+# Install JDK with no add-ons
+RUN apt-get -y -f install --no-install-recommends openjdk-8-jdk 
+
+# Install Maven
+ENV MAVEN_VERSION 3.3.1
+RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
+  && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
+  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+ENV MAVEN_HOME /usr/share/maven
+
+#Install Tomcat
+ENV CATALINA_HOME /usr/local/tomcat
+ENV PATH $CATALINA_HOME/bin:$PATH
+RUN mkdir -p "$CATALINA_HOME"
+WORKDIR $CATALINA_HOME
+
+ENV TOMCAT_MAJOR 7
+ENV TOMCAT_VERSION 7.0.63
+ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+
+RUN set -x \
+        && curl -fSL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz \
+        && curl -fSL "$TOMCAT_TGZ_URL.asc" -o tomcat.tar.gz.asc \
+        && tar -xvf tomcat.tar.gz --strip-components=1 \
+        && rm bin/*.bat \
+        && rm tomcat.tar.gz* \
+        && chmod -R 777 /usr/local/tomcat
+
+#HTTP port
+EXPOSE 8080
+
+
 
 RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" > /etc/apt/sources.list.d/webupd8team-java.list
 RUN echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/webupd8team-java.list
@@ -128,6 +159,17 @@ WORKDIR /data
 
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+
+# install java
+RUN apt-get install -y --no-install-recommends software-properties-common
+RUN add-apt-repository -y ppa:openjdk-r/ppa
+RUN apt-get update
+RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y openjdk-8-jre
+RUN update-alternatives --config java
+RUN update-alternatives --config javac
+
+# install tomcat
 
 
 # Install nomachine, the remote-desktop server that enables us to remote into the container image.
