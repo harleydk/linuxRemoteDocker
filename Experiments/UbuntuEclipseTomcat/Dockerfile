@@ -4,19 +4,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Do some general updates.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
-RUN apt-get install -y software-properties-common 
+RUN apt-get install -y --no-install-recommends software-properties-common 
 RUN add-apt-repository universe
 Run apt-get update -y
-RUN apt-get install -y curl 
-RUN apt-get install -y sudo 
-RUN apt-get install -y libgconf2-4 
-RUN apt-get install -y iputils-ping 
-RUN apt-get install -y libxss1 
-RUN apt-get install -y wget 
-RUN apt-get install -y xdg-utils 
-RUN apt-get install -y libpango1.0-0 
-RUN apt-get install -y fonts-liberation
-RUN apt-get update -y && apt-get install -y --no-install-recommends software-properties-common && apt-get install -y locales 
+RUN apt-get install -y curl sudo libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation locales 
 
 # Let's add a user, so we have a chance to, well, actually use the machine.
 ENV USER='thecoder'
@@ -55,9 +46,7 @@ RUN groupadd $SUDOUSER \
 # RUN setxkbmap dk  - doesnt work :(
 
 # Install some much needed programs - nano, midnight commander, guake terminal
-RUN apt-get install nano -y
-RUN apt-get install mc -y
-RUN apt-get install guake -y
+RUN apt-get install -y nano mc guake git firefox
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
@@ -66,10 +55,6 @@ RUN apt-get update -y && \
 #RUN apt-get update -y && \
 #   apt-get install -y mate-desktop-environment-extras    
 
-# Install git
-RUN apt-get install -y git
-# Install Python.
-# Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
 
 # Install miniconda, for Python virtual environmentaziation
 # RUN curl -fSL "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" -o Miniconda3-latest-Linux-x86_64.sh
@@ -77,9 +62,6 @@ RUN apt-get install -y git
 # Enable conda
 # RUN echo ". /home/theadmin/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc
 # RUN conda create -n <name_of_env> python=3.6 -y
-
-# Install Firefox
-RUN apt-get install firefox -y
 
 # Install Postman to 'opt' dir
 RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
