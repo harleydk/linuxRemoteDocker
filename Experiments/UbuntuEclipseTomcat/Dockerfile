@@ -6,7 +6,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
 RUN apt-get install -y software-properties-common 
 RUN add-apt-repository universe
-RUN apt-get install -y cups curl sudo libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation
+RUN apt-get install -y curl 
+RUN apt-get install -y sudo 
+RUN apt-get install -y libgconf2-4 
+RUN apt-get install -y iputils-ping 
+RUN apt-get install -y libxss1 
+RUN apt-get install -y wget 
+RUN apt-get install -y xdg-utils 
+RUN apt-get install -y libpango1.0-0 
+RUN apt-get install -y fonts-liberation
 RUN apt-get update -y && apt-get install -y software-properties-common && apt-get install -y locales 
 
 # Let's add a user, so we have a chance to, well, actually use the machine.
@@ -96,6 +104,23 @@ RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} &&\
 
 # Annnnnd back to root for the remainder of this session.
 USER root
+
+# Install Java.
+RUN \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java8-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk8-installer
+
+
+# Define working directory.
+WORKDIR /data
+
+# Define commonly used JAVA_HOME variable
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+
 
 # Install nomachine, the remote-desktop server that enables us to remote into the container image.
 # You don't have to rely on my choice of NoMachine - just go to their website and get a different one, if you want.
