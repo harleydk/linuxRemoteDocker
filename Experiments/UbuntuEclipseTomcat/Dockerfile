@@ -16,7 +16,7 @@ RUN apt-get install -y wget
 RUN apt-get install -y xdg-utils 
 RUN apt-get install -y libpango1.0-0 
 RUN apt-get install -y fonts-liberation
-RUN apt-get update -y && apt-get install -y -no-install-recommends software-properties-common && apt-get install -y locales 
+RUN apt-get update -y && apt-get install -y --no-install-recommends software-properties-common && apt-get install -y locales 
 
 # Let's add a user, so we have a chance to, well, actually use the machine.
 ENV USER='thecoder'
