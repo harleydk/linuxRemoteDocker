@@ -92,7 +92,7 @@ USER root
 # Install Java.
 RUN \
   apt-get update && \
-  apt-get install -y openjdk-7-jdk && \
+  apt-get install -y openjdk-8-jdk && \
   rm -rf /var/lib/apt/lists/*
 
 # RUN apt-get install -y --no-install-recommends software-properties-common
