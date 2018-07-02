@@ -89,17 +89,23 @@ RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} &&\
 USER root
 
 # install java
-RUN apt-get install -y --no-install-recommends software-properties-common
-RUN add-apt-repository -y ppa:openjdk-r/ppa
-RUN cd /etc/apt/sources.list.d
-RUN rm webupd8team-java.list -f 
-RUN apt-get update
-RUN add-apt-repository ppa:webupd8team/java to add the correct ppa to your system.
-RUN apt-get update
-RUN apt-get install -y openjdk-8-jdk
-RUN apt-get install -y openjdk-8-jre
-RUN update-alternatives --config java
-RUN update-alternatives --config javac
+# Install Java.
+RUN \
+  apt-get update && \
+  apt-get install -y openjdk-7-jdk && \
+  rm -rf /var/lib/apt/lists/*
+
+# RUN apt-get install -y --no-install-recommends software-properties-common
+# RUN add-apt-repository -y ppa:openjdk-r/ppa
+# RUN cd /etc/apt/sources.list.d
+# RUN rm webupd8team-java.list -f 
+# RUN apt-get update
+# RUN add-apt-repository ppa:webupd8team/java to add the correct ppa to your system.
+# RUN apt-get update
+# RUN apt-get install -y openjdk-8-jdk
+# RUN apt-get install -y openjdk-8-jre
+# RUN update-alternatives --config java
+# RUN update-alternatives --config javac
 
 # install tomcat
 
