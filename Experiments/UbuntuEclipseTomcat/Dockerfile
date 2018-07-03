@@ -70,76 +70,51 @@ RUN rm postman.tar.gz
 
 # Install eclipse
 ENV ECLIPSE_WORKSPACE=${HOME}/eclipse-workspace
-
 ARG ELCIPSE_TAR=${ELCIPSE_TAR:-eclipse-jee-oxygen-R-linux-gtk-x86_64.tar.gz}
-
 WORKDIR /opt
 RUN wget -c http://mirror.math.princeton.edu/pub/eclipse//technology/epp/downloads/release/oxygen/R/${ELCIPSE_TAR} && \
     tar xvf ${ELCIPSE_TAR} && \
     rm ${ELCIPSE_TAR} 
-    
+
+# install eclipse plugins. Thanks, https://www.cs.ubc.ca/~gberseth/blog/install-eclipse-plugins-via-the-command-line.html
+RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repository http://download.eclipse.org/releases/juno/ -installIU org.eclipse.linuxtools.cdt.libhover.feature.group
+RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repository http://eclipse-jetty.github.io/update -installIU net.sourceforge.eclipsejetty.feature.feature.group
 #VOLUME ${ECLIPSE_WORKSPACE}
 #VOLUME ${HOME}/.eclipse 
+
+
+# Create a desktop shortcut to Eclipse:
+#  executable file that starts the NoMachine remote desktop server.
+# A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
+# Note how the file ends with a /bin/bash-command. That's deliberate, it allows
+# us do - don't ask me how - keep the container running when we use it later.
+RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > $HOME/Desktop/eclipse.desktop
+
 
 RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} &&\
     chown -R ${USER}:${USER} ${ECLIPSE_WORKSPACE} ${HOME}/.eclipse
     
 
-# Annnnnd back to root for the remainder of this session.
-USER root
-
-# install java
 # Install Java.
 RUN \
   apt-get update && \
   apt-get install -y openjdk-8-jdk && \
   rm -rf /var/lib/apt/lists/*
-
-# RUN apt-get install -y --no-install-recommends software-properties-common
-# RUN add-apt-repository -y ppa:openjdk-r/ppa
-# RUN cd /etc/apt/sources.list.d
-# RUN rm webupd8team-java.list -f 
-# RUN apt-get update
-# RUN add-apt-repository ppa:webupd8team/java to add the correct ppa to your system.
-# RUN apt-get update
-# RUN apt-get install -y openjdk-8-jdk
-# RUN apt-get install -y openjdk-8-jre
-# RUN update-alternatives --config java
-# RUN update-alternatives --config javac
-
-# install tomcat
+RUN update-alternatives --config java
+RUN update-alternatives --config javac
 
 
 # Install Gradle
-# TODO.
-
-#Install Tomcat
-ENV CATALINA_HOME /usr/local/tomcat
-ENV PATH $CATALINA_HOME/bin:$PATH
-RUN mkdir -p "$CATALINA_HOME"
-WORKDIR $CATALINA_HOME
-
-ENV TOMCAT_MAJOR 9
-ENV TOMCAT_VERSION 9.0.10
-ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
-
-RUN set -x \
-        && curl -fSL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz \
-        && curl -fSL "$TOMCAT_TGZ_URL.asc" -o tomcat.tar.gz.asc \
-        && tar -xvf tomcat.tar.gz --strip-components=1 \
-        && rm bin/*.bat \
-        && rm tomcat.tar.gz* \
-        && chmod -R 777 /usr/local/tomcat
+RUN wget https://services.gradle.org/distributions/gradle-4.8.1-bin.zip
+RUN mkdir /opt/gradle
+RUN unzip -d /opt/gradle gradle-4.8.1-bin.zip
+ENV PATH="/opt/gradle/gradle-4.8.1/bin:${PATH}"
 
 #HTTP port
 EXPOSE 8080
 
-# Define working directory.
-WORKDIR /data
-
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-
+# Annnnnd back to root for the remainder of this session.
+USER root
 
 # Install nomachine, the remote-desktop server that enables us to remote into the container image.
 # You don't have to rely on my choice of NoMachine - just go to their website and get a different one, if you want.
