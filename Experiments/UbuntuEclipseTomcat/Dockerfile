@@ -46,14 +46,18 @@ RUN groupadd $SUDOUSER \
 # RUN setxkbmap dk  - doesnt work :(
 
 # Install some much needed programs - nano, midnight commander, guake terminal
-RUN apt-get install -y nano mc guake git firefox
+RUN apt-get install -y nano mc guake git
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
     apt-get install -y xfce4
-# There's also the MATE desktop-enviroment. Bit more light-weight.
-#RUN apt-get update -y && \
-#   apt-get install -y mate-desktop-environment-extras    
+
+# install chrome. Because Firefox keeps crashing :(
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome-stable_current_amd64.deb || \
+  (sudo apt -f install -y && \
+      sudo dpkg -i google-chrome-stable_current_amd64.deb)
+RUN rm -f google-chrome-stable_current_amd64.deb
 
 
 # Install miniconda, for Python virtual environmentaziation
@@ -77,7 +81,6 @@ RUN wget -c http://mirror.math.princeton.edu/pub/eclipse//technology/epp/downloa
     rm ${ELCIPSE_TAR} 
 
 # install eclipse plugins. Thanks, https://www.cs.ubc.ca/~gberseth/blog/install-eclipse-plugins-via-the-command-line.html
-RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repository http://download.eclipse.org/releases/juno/ -installIU org.eclipse.linuxtools.cdt.libhover.feature.group
 RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repository http://eclipse-jetty.github.io/update -installIU net.sourceforge.eclipsejetty.feature.feature.group
 #VOLUME ${ECLIPSE_WORKSPACE}
 #VOLUME ${HOME}/.eclipse 
@@ -90,10 +93,9 @@ RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repositor
 # us do - don't ask me how - keep the container running when we use it later.
 RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > $HOME/Desktop/eclipse.desktop
 
-
 RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} &&\
     chown -R ${USER}:${USER} ${ECLIPSE_WORKSPACE} ${HOME}/.eclipse
-    
+   
 
 # Install Java.
 RUN \
