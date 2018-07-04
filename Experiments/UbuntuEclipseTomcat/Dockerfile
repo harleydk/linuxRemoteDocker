@@ -52,6 +52,14 @@ RUN apt-get install -y nano mc guake git
 RUN apt-get update -y && \
     apt-get install -y xfce4
 
+# Install Java.
+RUN \
+  apt-get update && \
+  apt-get install -y openjdk-8-jdk && \
+  rm -rf /var/lib/apt/lists/*
+RUN update-alternatives --config java
+RUN update-alternatives --config javac
+
 # install chrome. Because Firefox keeps crashing :(
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb || \
@@ -97,13 +105,7 @@ RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} &&\
     chown -R ${USER}:${USER} ${ECLIPSE_WORKSPACE} ${HOME}/.eclipse
    
 
-# Install Java.
-RUN \
-  apt-get update && \
-  apt-get install -y openjdk-8-jdk && \
-  rm -rf /var/lib/apt/lists/*
-RUN update-alternatives --config java
-RUN update-alternatives --config javac
+
 
 
 # Install Gradle
