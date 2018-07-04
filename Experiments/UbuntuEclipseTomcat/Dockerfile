@@ -61,11 +61,11 @@ RUN update-alternatives --config java
 RUN update-alternatives --config javac
 
 # install chrome. Because Firefox keeps crashing :(
-RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN dpkg -i google-chrome-stable_current_amd64.deb || \
-  (sudo apt -f install -y && \
-      sudo dpkg -i google-chrome-stable_current_amd64.deb)
-RUN rm -f google-chrome-stable_current_amd64.deb
+# RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+# RUN dpkg -i google-chrome-stable_current_amd64.deb || \
+#  (apt -f install -y && \
+      #dpkg -i google-chrome-stable_current_amd64.deb)
+#RUN rm -f google-chrome-stable_current_amd64.deb
 
 
 # Install miniconda, for Python virtual environmentaziation
