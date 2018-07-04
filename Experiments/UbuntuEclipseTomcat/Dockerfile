@@ -55,11 +55,10 @@ RUN apt-get update -y && \
 # Install Java. And Maven.
 RUN \
   apt-get update && \
-  apt-get install -y openjdk-8-jdk && \
+  apt-get install -y maven openjdk-8-jdk && \
   rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --config java
 RUN update-alternatives --config javac
-RUN apt-get install -y maven
 
 # Install miniconda, for Python virtual environmentaziation
 # RUN curl -fSL "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" -o Miniconda3-latest-Linux-x86_64.sh
@@ -92,8 +91,8 @@ RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repositor
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
 # Note how the file ends with a /bin/bash-command. That's deliberate, it allows
 # us do - don't ask me how - keep the container running when we use it later.
-RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/$USER/Desktop/eclipse.desktop
-RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/$SUDOUSER/Desktop/eclipse.desktop
+RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/thecoder/Desktop/eclipse.desktop
+RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/theadmin/Desktop/eclipse.desktop
 
 RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} && \
     chown -R ${USER}:${USER} ${ECLIPSE_WORKSPACE} ${HOME}/.eclipse
