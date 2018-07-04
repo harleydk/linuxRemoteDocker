@@ -5,8 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Do some general updates.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y --no-install-recommends software-properties-common 
-RUN add-apt-repository universe
-Run apt-get update -y
+RUN add-apt-repository universe && \
+    apt-get update -y
 RUN apt-get install -y curl sudo libgconf2-4 iputils-ping libxss1 wget xdg-utils libpango1.0-0 fonts-liberation locales 
 
 # Let's add a user, so we have a chance to, well, actually use the machine.
@@ -19,7 +19,7 @@ RUN groupadd -r $USER -g 433 \
     && chown -R $USER:$USER /home/$USER \
     && echo $USER':'$PASSWORD | chpasswd
 
-# Let's add a super user, too. Same password
+# Let's add a super user, too. Same password.
 ENV SUDOUSER='theadmin'
 ENV PASSWORD='password'
 RUN groupadd $SUDOUSER \
@@ -45,28 +45,21 @@ RUN groupadd $SUDOUSER \
 # set danish keyboard layout
 # RUN setxkbmap dk  - doesnt work :(
 
-# Install some much needed programs - nano, midnight commander, guake terminal
-RUN apt-get install -y nano mc guake git
+# Install some much needed programs
+RUN apt-get install -y epiphany-browser nano mc guake git gedit
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
     apt-get install -y xfce4
 
-# Install Java.
+# Install Java. And Maven.
 RUN \
   apt-get update && \
   apt-get install -y openjdk-8-jdk && \
   rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --config java
 RUN update-alternatives --config javac
-
-# install chrome. Because Firefox keeps crashing :(
-# RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-# RUN dpkg -i google-chrome-stable_current_amd64.deb || && \
-#  (apt -f install -y && && \
-      #dpkg -i google-chrome-stable_current_amd64.deb)
-#RUN rm -f google-chrome-stable_current_amd64.deb
-
+RUN apt-get install -y maven
 
 # Install miniconda, for Python virtual environmentaziation
 # RUN curl -fSL "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" -o Miniconda3-latest-Linux-x86_64.sh
@@ -76,9 +69,9 @@ RUN update-alternatives --config javac
 # RUN conda create -n <name_of_env> python=3.6 -y
 
 # Install Postman to 'opt' dir
-RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz && \
-    tar -xzf postman.tar.gz -C /opt && \
-    rm postman.tar.gz
+#RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz && \
+    #tar -xzf postman.tar.gz -C /opt && \
+#    rm postman.tar.gz
 
 # Install eclipse
 ENV ECLIPSE_WORKSPACE=${HOME}/eclipse-workspace
@@ -99,16 +92,18 @@ RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repositor
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
 # Note how the file ends with a /bin/bash-command. That's deliberate, it allows
 # us do - don't ask me how - keep the container running when we use it later.
-RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > $USER/Desktop/eclipse.desktop
+RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/$USER/Desktop/eclipse.desktop
+RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/$SUDOUSER/Desktop/eclipse.desktop
 
 RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} && \
     chown -R ${USER}:${USER} ${ECLIPSE_WORKSPACE} ${HOME}/.eclipse
 
 # Install Gradle
-RUN wget https://services.gradle.org/distributions/gradle-4.8.1-bin.zip && \
-    mkdir /opt/gradle && \
-    unzip -d /opt/gradle gradle-4.8.1-bin.zip && \
-    PATH="/opt/gradle/gradle-4.8.1/bin:${PATH}"
+#RUN wget https://services.gradle.org/distributions/gradle-4.8.1-bin.zip && \
+#    #mkdir /opt/gradle && \
+#    unzip -d /opt/gradle gradle-4.8.1-bin.zip
+#ENV PATH="/opt/gradle/gradle-4.8.1/bin:${PATH}"
+
 
 #HTTP port
 EXPOSE 8080
@@ -123,8 +118,8 @@ ENV NOMACHINE_PACKAGE_NAME nomachine_6.2.4_1_amd64.deb
 ENV NOMACHINE_MD5 210bc249ec9940721a1413392eee06fe
 
 RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
-&& echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
-&& dpkg -i nomachine.deb
+    && echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
+    && dpkg -i nomachine.deb
 
 
 # Create an executable file that starts the NoMachine remote desktop server.
