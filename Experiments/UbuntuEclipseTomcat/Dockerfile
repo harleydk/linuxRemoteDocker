@@ -3,7 +3,7 @@ FROM ubuntu:17.10
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Do some general updates.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y &&  apt-get upgrade -y
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* &&  apt-get clean &&  apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y --no-install-recommends software-properties-common 
 RUN add-apt-repository universe
 Run apt-get update -y
@@ -76,9 +76,9 @@ RUN update-alternatives --config javac
 # RUN conda create -n <name_of_env> python=3.6 -y
 
 # Install Postman to 'opt' dir
-RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
-RUN tar -xzf postman.tar.gz -C /opt
-RUN rm postman.tar.gz
+RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz && \
+    tar -xzf postman.tar.gz -C /opt && \
+    rm postman.tar.gz
 
 # Install eclipse
 ENV ECLIPSE_WORKSPACE=${HOME}/eclipse-workspace
@@ -99,20 +99,16 @@ RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repositor
 # A unix executable .sh-file must start with #!/bin/bash. '\n' means 'newline'.
 # Note how the file ends with a /bin/bash-command. That's deliberate, it allows
 # us do - don't ask me how - keep the container running when we use it later.
-RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > $HOME/Desktop/eclipse.desktop
+RUN printf '[Desktop Entry]\nName=Eclipse\nComment=Eclipse\nExec=/opt/eclipse/eclipse\nIcon=/opt/eclipse/icon.xpm\nTerminal=false\nType=Application\nStartupNotify=true'"" > $USER/Desktop/eclipse.desktop
 
-RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} &&\
+RUN mkdir -p ${HOME}/.eclipse ${ECLIPSE_WORKSPACE} && \
     chown -R ${USER}:${USER} ${ECLIPSE_WORKSPACE} ${HOME}/.eclipse
-   
-
-
-
 
 # Install Gradle
-RUN wget https://services.gradle.org/distributions/gradle-4.8.1-bin.zip
-RUN mkdir /opt/gradle
-RUN unzip -d /opt/gradle gradle-4.8.1-bin.zip
-ENV PATH="/opt/gradle/gradle-4.8.1/bin:${PATH}"
+RUN wget https://services.gradle.org/distributions/gradle-4.8.1-bin.zip && \
+    mkdir /opt/gradle && \
+    unzip -d /opt/gradle gradle-4.8.1-bin.zip && \
+    PATH="/opt/gradle/gradle-4.8.1/bin:${PATH}"
 
 #HTTP port
 EXPOSE 8080
