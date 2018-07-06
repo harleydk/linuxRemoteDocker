@@ -53,7 +53,7 @@ RUN apt-get install -y git
 
 
 # Install Firefox
-RUN apt-get install firefox -y
+# RUN apt-get install firefox -y
 
 # Install Postman to 'opt' dir
 RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
@@ -61,8 +61,13 @@ RUN tar -xzf postman.tar.gz -C /opt
 RUN rm postman.tar.gz
 
 # Install Visual Studio Code
+RUN apt-get install -y curl 
 ENV VSCODEPATH="https://go.microsoft.com/fwlink/?LinkID=760868"
-RUN curl -fSL "${VSCODEPATH}" -o vscode.deb && dpkg -i vscode.deb
+RUN curl -fSL "${VSCODEPATH}" -o vscode.deb 
+RUN apt-get install -y libnss3
+RUN apt-get install -y gnupg 
+RUN apt-get install -y libsecret-1-0
+RUN dpkg -i vscode.deb
 
 # Install Python.
 # Whoa, waitaminute - Ubuntu 17.10 already comes with Python 3.6 as default. Just run python3 to invoke it.
@@ -91,7 +96,7 @@ ENV NOMACHINE_MAJOR_VERSION "6.2"
 ENV NOMACHINE_PACKAGE_NAME "nomachine_6.2.4_1_amd64.deb"
 ENV NOMACHINE_MD5 "210bc249ec9940721a1413392eee06fe"
 
-RUN apt-get install -y curl 
+
 RUN curl -fSL "http://download.nomachine.com/download/${NOMACHINE_MAJOR_VERSION}/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb \
 && echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c - \
 && dpkg -i nomachine.deb
