@@ -46,7 +46,7 @@ RUN groupadd $SUDOUSER \
 # RUN setxkbmap dk  - doesnt work :(
 
 # Install some much needed programs
-RUN apt-get install -y epiphany-browser nano mc guake git gedit retext
+RUN apt-get install -y epiphany-browser nano mc guake git gedit retext nautilus-admin
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
