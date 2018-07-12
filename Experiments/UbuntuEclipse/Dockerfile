@@ -89,8 +89,8 @@ RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repositor
 RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
 RUN tar -xzf postman.tar.gz -C /opt
 RUN rm postman.tar.gz
-RUN printf '[Desktop Entry]\nName=Postman\nComment=Postman\nExec=/opt/Postman/app/Postman \nIcon=/opt/Postman/app/resources/app/assets/icon.png\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/theuser/Desktop/postman.desktop
-RUN printf '[Desktop Entry]\nName=Postman\nComment=Postman\nExec=/opt/Postman/app/Postman \nIcon=/opt/Postman/app/resources/app/assets/icon.png\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/theadmin/Desktop/postman.desktop
+RUN printf '[Desktop Entry]\nName=Postman\nComment=Postman\nExec=/opt/Postman/app/Postman\nIcon=/opt/Postman/app/resources/app/assets/icon.png\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/thecoder/Desktop/postman.desktop
+RUN printf '[Desktop Entry]\nName=Postman\nComment=Postman\nExec=/opt/Postman/app/Postman\nIcon=/opt/Postman/app/resources/app/assets/icon.png\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/theadmin/Desktop/postman.desktop
 
 # Create a desktop shortcut to Eclipse:
 #  executable file that starts the NoMachine remote desktop server.
