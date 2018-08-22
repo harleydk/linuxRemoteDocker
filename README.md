@@ -21,7 +21,7 @@ docker build -t=linux_remote_pc_image .
 Then there's just running it: 
 
 ```
-docker run -d -t -p 4000:4000 --name=linux_remote_pc --cap-add=SYS_PTRACE linux_remote_pc_image
+docker run -d -t -p 4000:4000 --name=linux_remote_pc --cap-add=SYS_PTRACE linux_remote_pc_image --memory=4096m
 ```
 
 Where...
@@ -35,6 +35,8 @@ Where...
 * __name linux_remote_pc__ makes it easier to recognize the container image among all the others, lest it'll just have a generic name assigned to it.
 
 * __--cap-add=SYS_PTRACE__ is absolutely, definitely required by [Nomachine](https://www.nomachine.com/DT08M00099), or we won't be able to create local displays for the users logging in. At least with ubuntu 16.04+, that is.
+
+* __--memory=4096__ (optional) limit the memory consumption of the container (4 gb, in this case)
 
 ## Connect to it
 
