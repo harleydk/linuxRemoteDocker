@@ -21,7 +21,7 @@ docker build -t=linux_remote_pc_image .
 Then there's just running it: 
 
 ```
-docker run -d -t -p 4000:4000 --name=linux_remote_pc --cap-add=SYS_PTRACE linux_remote_pc_image --memory=4096m
+docker run -d -t -p 4000:4000 --name=linux_remote_pc --cap-add=SYS_PTRACE  --memory=4096m linux_remote_pc_image
 ```
 
 Where...
