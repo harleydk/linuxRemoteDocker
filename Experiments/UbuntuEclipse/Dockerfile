@@ -46,7 +46,7 @@ RUN groupadd $SUDOUSER \
 # RUN setxkbmap dk  - doesnt work :(
 
 # Install some much needed programs
-RUN apt-get install -y epiphany-browser nano mc guake git gedit
+RUN apt-get install -y epiphany-browser nano mc guake git gedit retext
 
 # Use the Xfce desktop. Because it's nice to look at, in my opinion.
 RUN apt-get update -y && \
@@ -85,6 +85,12 @@ RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repositor
 #VOLUME ${ECLIPSE_WORKSPACE}
 #VOLUME ${HOME}/.eclipse 
 
+# install postman
+RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+RUN tar -xzf postman.tar.gz -C /opt
+RUN rm postman.tar.gz
+RUN printf '[Desktop Entry]\nName=Postman\nComment=Postman\nExec=/opt/Postman/app/Postman\nIcon=/opt/Postman/app/resources/app/assets/icon.png\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/thecoder/Desktop/postman.desktop
+RUN printf '[Desktop Entry]\nName=Postman\nComment=Postman\nExec=/opt/Postman/app/Postman\nIcon=/opt/Postman/app/resources/app/assets/icon.png\nTerminal=false\nType=Application\nStartupNotify=true'"" > /home/theadmin/Desktop/postman.desktop
 
 # Create a desktop shortcut to Eclipse:
 #  executable file that starts the NoMachine remote desktop server.
